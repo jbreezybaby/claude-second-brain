@@ -1,0 +1,22 @@
+.env
+CLAUDE.local.md
+.claude/settings.local.json
+.mcp.json
+node_modules/
+# Personal context — do not commit
+context/me.md
+context/work.md
+context/team.md
+context/areas.md
+context/current-priorities.md
+context/goals.md
+# Personal project content
+projects/**/*.md
+!projects/.gitkeep
+# Archives
+archives/**/*.md
+!archives/.gitkeep
+# Research and cover letters
+research/**/*.md
+!research/.gitkeep
+decisions/log.md
