@@ -48,6 +48,7 @@ Skills are built organically as recurring workflows emerge.
 | [inbox-triage-calendar](.claude/skills/inbox-triage-calendar/SKILL.md) | `/inbox-triage-calendar` | Scan Google Calendar and create prep task reminders |
 | [weekly-review](.claude/skills/weekly-review/SKILL.md) | `/weekly-review` | Full GTD weekly review — 10-step interactive system scan |
 | [morning-briefing](.claude/skills/morning-briefing/SKILL.md) | `/morning-briefing` | Quick daily orientation — calendar, tasks, focus recommendation |
+| [sync-public-repo](.claude/skills/sync-public-repo/SKILL.md) | `/sync-public-repo` | Sync shareable EA changes to public GitHub repo (strips personal info) |
 
 ---
 

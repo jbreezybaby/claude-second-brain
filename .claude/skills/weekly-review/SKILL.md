@@ -95,6 +95,9 @@ If priorities have shifted based on the review:
 - Suggest updates to `context/current-priorities.md`
 - Ask for confirmation before making changes
 
+### Step 11: Sync Public Repo
+Run `/sync-public-repo` to push any shareable skill or system changes made since the last sync.
+
 ---
 
 ## Output

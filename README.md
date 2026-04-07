@@ -46,7 +46,8 @@ claude-second-brain/
         ├── inbox-triage-gmail/
         ├── inbox-triage-calendar/
         ├── morning-briefing/
-        └── weekly-review/
+        ├── weekly-review/
+        └── sync-public-repo/
 ```
 
 ---
@@ -64,6 +65,7 @@ Skills are reusable workflows stored in `.claude/skills/`. Invoke them with `/sk
 | Inbox Triage — Calendar | `/inbox-triage-calendar` | Scan calendar and create prep tasks |
 | Morning Briefing | `/morning-briefing` | Daily orientation — calendar, tasks, focus |
 | Weekly Review | `/weekly-review` | Full GTD weekly review (10-step) |
+| Sync Public Repo | `/sync-public-repo` | Sync shareable changes to public GitHub repo |
 
 ---
 
