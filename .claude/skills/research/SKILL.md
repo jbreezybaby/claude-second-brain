@@ -26,7 +26,10 @@ Use the best available search tools, in this priority order:
 | Priority | Tool | When Available |
 |----------|------|----------------|
 | 1 | `perplexity_ask` (Sonar Pro) | When Perplexity MCP is connected |
-| 2 | `WebSearch` + `WebFetch` | Always available (built-in) |
+| 2 | `perplexity_reason` (Sonar Reasoning Pro) | For complex/multi-step questions when Perplexity MCP is connected |
+| 3 | `WebSearch` + `WebFetch` | Always available (built-in) |
+
+When using WebSearch/WebFetch, compensate by running multiple targeted queries and cross-referencing results.
 
 ---
 
@@ -34,7 +37,7 @@ Use the best available search tools, in this priority order:
 
 ### Step 1: Understand the Input
 - If URL: fetch the page with WebFetch and extract all relevant details
-  - **If the fetch fails** (403, redirect, timeout): ask the user to paste the job posting text before proceeding
+  - **If the fetch fails** (403, redirect, timeout, or empty content) and this looks like a job posting URL: immediately stop and ask the user to paste the job posting text before proceeding. Do not attempt to research the role without the posting content.
 - If pasted text: parse it directly
 - If topic: clarify scope if ambiguous
 
@@ -77,21 +80,22 @@ Use the best available search tools, in this priority order:
 |---|---|
 | **Company** | Name |
 | **Industry** | ... |
-| **Size** | Employee count, stage |
+| **Size** | Employee count, stage (startup/growth/enterprise) |
 | **Founded** | Year |
 | **HQ** | Location |
 | **Funding / Revenue** | Latest known info |
 | **Key People** | CEO, hiring manager if findable |
 
 ### What They Do
-2-3 sentence plain-English summary.
+2-3 sentence plain-English summary. What problem do they solve? For whom?
 
 ### Recent News
 | Date | Headline | Source |
 |------|----------|--------|
+| ... | ... | [link] |
 
 ### Culture & Reputation
-Summary of Glassdoor reviews, public sentiment, notable culture traits. Flag red flags if they exist.
+Summary of Glassdoor reviews, public sentiment, notable culture traits. Be honest — flag red flags if they exist.
 
 ---
 
@@ -102,7 +106,7 @@ Summary of Glassdoor reviews, public sentiment, notable culture traits. Flag red
 | **Title** | ... |
 | **Level** | Junior / Mid / Senior / Lead / Director |
 | **Team** | If mentioned |
-| **Location** | Remote / Hybrid / On-site |
+| **Location** | Remote / Hybrid / On-site, and where |
 | **Compensation** | If listed or findable |
 
 ### Key Responsibilities
@@ -118,6 +122,7 @@ Bulleted list extracted from the posting.
 ### Nice-to-Haves
 | Item | Your Fit | Notes |
 |------|----------|-------|
+| ... | ... | ... |
 
 ---
 
@@ -126,9 +131,10 @@ Bulleted list extracted from the posting.
 ### Likely Interview Topics
 | Topic | Why It's Likely | Prep Notes |
 |-------|-----------------|------------|
+| ... | ... | ... |
 
 ### Questions to Ask
-5-7 thoughtful questions tailored to this specific role and company.
+5-7 thoughtful questions tailored to this specific role and company. Not generic.
 
 ### Key Talking Points
 3-5 specific things to emphasize from your background that map to this role.
@@ -165,7 +171,7 @@ Bulleted list extracted from the posting.
 ---
 
 ## Summary
-3-5 sentence executive summary.
+3-5 sentence executive summary. What did you find? What's the bottom line?
 
 ---
 
@@ -173,6 +179,14 @@ Bulleted list extracted from the posting.
 
 ### [Finding 1]
 Details, context, evidence.
+
+### [Finding 2]
+Details, context, evidence.
+
+### [Finding 3]
+Details, context, evidence.
+
+(Use as many sections as needed. Use tables when comparing options or listing structured data.)
 
 ---
 
@@ -194,8 +208,10 @@ Things that couldn't be answered or need further investigation.
 
 ## Rules
 
-- Always include the Sources section — every claim should be traceable
-- Use tables for structured data
-- Be direct and efficient — no filler
-- If information is uncertain or couldn't be verified, say so explicitly
-- For job research: assess fit against actual background (@context/me.md), not a hypothetical candidate
+- Always include the Sources section. Every claim should be traceable.
+- Use tables for structured data.
+- Be direct and efficient. Don't pad the report with filler.
+- If information is uncertain or couldn't be verified, say so explicitly.
+- For job research: assess fit against actual background (@context/me.md), not a hypothetical candidate.
+- Create the output directory if it doesn't exist before saving.
+- **Never ask for permission to access publicly available web pages.** Fetch URLs, run searches, and follow redirects autonomously. Only pause if a page requires authentication or a fetch hard-fails with no fallback.
