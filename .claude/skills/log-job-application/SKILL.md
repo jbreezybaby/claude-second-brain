@@ -1,6 +1,6 @@
 # Log Job Application
 
-Log a completed job application to a Job Contact Log Google Sheet. Automatically fills required fields from research files and web search, prompts only for what it can't find, and appends a row to the sheet for use in weekly unemployment certifications.
+Log a completed job application to a Job Contact Log Google Sheet. Automatically fills required fields from research files and web search, prompts only for what it can't find, and appends a new row to the sheet.
 
 ---
 
@@ -136,7 +136,7 @@ gws sheets spreadsheets values append \
 
 Confirm completion with:
 - Link to the Google Sheet
-- Count of applications logged this week (Sunday–Saturday) — flag if below 2 for the week (minimum required for most state unemployment certifications)
+- Count of applications logged this week (Sunday–Saturday)
 
 ---
 
