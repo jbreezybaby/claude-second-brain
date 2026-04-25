@@ -1,6 +1,6 @@
 # Log Job Application
 
-Log a completed job application to a Job Contact Log Google Sheet. Automatically fills required fields from research files and web search, prompts only for what it can't find, and appends a new row to the sheet.
+Log a completed job application to the VEC Job Contact Log Google Sheet. Automatically fills required fields from research files and web search, prompts only for what it can't find, and appends a row to the sheet for use in weekly VEC certifications.
 
 ---
 
@@ -12,8 +12,8 @@ Log a completed job application to a Job Contact Log Google Sheet. Automatically
 
 **Examples:**
 ```
-/log-job-application acme-corp
-/log-job-application projects/job-search/research/2026-04-02-acme-corp-pm.md
+/log-job-application energyhub
+/log-job-application projects/job-search/research/2026-04-02-energyhub-lead-pm.md
 /log-job-application (no arg — will prompt)
 ```
 
@@ -21,8 +21,8 @@ Log a completed job application to a Job Contact Log Google Sheet. Automatically
 
 ## Prerequisites
 
-- `gws` CLI authenticated (`gws auth status` should show your email)
-- Job Contact Log sheet exists OR this is the first run (skill creates it automatically)
+- `gws` CLI authenticated (`gws auth status` should show `[YOUR_EMAIL]`)
+- VEC Job Contact Log sheet exists OR this is the first run (skill creates it automatically)
 
 ---
 
@@ -33,7 +33,7 @@ Log a completed job application to a Job Contact Log Google Sheet. Automatically
 - If arg matches a path or slug in `projects/job-search/research/` → load that research file
 - If arg is a company name → fuzzy-search `projects/job-search/research/` for a match (by filename)
 - If arg is a URL → treat as job posting URL; no research file
-- If no arg → ask: company name and role title before proceeding
+- If no arg → ask James: company name and role title before proceeding
 
 ### Step 2 — Extract Known Data from Research File (if exists)
 
@@ -49,51 +49,52 @@ Read the research file silently. Extract:
 
 ### Step 3 — Web Search for Missing Required Fields
 
-For any required field not found in the research file, search the web. Use tools in this priority order:
+For any VEC-required field not found in the research file, search the web. Use tools in this priority order:
 1. `perplexity_ask` (if Perplexity MCP connected)
 2. `WebSearch` + `WebFetch`
 
 | Missing Field | Search Strategy |
 |---------------|----------------|
 | Company address | Search "[company name] headquarters address" |
+| Company phone | Search "[company name] headquarters phone number" or fetch their contact page — **required by VEC; must be a real phone number, not a URL** |
 | HR contact email | Search "[company name] careers email" or fetch their careers page |
 | Contact person | Default to "Talent Acquisition Team" if nothing findable — never fabricate a name |
 
 Result field always defaults to: **"Application submitted online"**
 
-### Step 4 — Present Prefilled Table and Prompt for Gaps
+### Step 4 — Compile Row and Write to Google Sheet
 
-Show what was auto-filled vs. what's missing or uncertain:
+Assemble the row using all fields gathered in Steps 2–3:
 
-```
-| Field              | Value                        | Source          |
-|--------------------|------------------------------|-----------------|
-| Date Applied       | YYYY-MM-DD                   | Auto            |
-| Company            | [name]                       | Research file   |
-| Address            | [address or ⚠️ MISSING]      | Web search      |
-| Contact Person     | Talent Acquisition Team      | Default         |
-| Phone / Email      | [email or ⚠️ MISSING]        | Web search      |
-| Position           | [role title]                 | Research file   |
-| Result             | Application submitted online | Default         |
-```
+| Col | Field | Value Source |
+|-----|-------|-------------|
+| A | Date Applied | Today's date (YYYY-MM-DD) |
+| B | Company | From research file or input |
+| C | Full Address | From research file HQ row, or web search result |
+| D | Contact Person / Title | "Talent Acquisition Team" (default) or found contact |
+| E | Phone or Email | Phone number preferred (required by VEC); use HR email or careers URL if no phone found |
+| F | Position Applied For | Role title from research file or input |
+| G | Result | "Application submitted online" |
+| H | Job Posting URL | From research file header or input |
+| I | Research File | Relative path (e.g. `projects/job-search/research/YYYY-MM-DD-company-role.md`), or blank |
+| J | Status | "Applied" |
+| K | Notes | Blank |
 
-Ask to confirm, correct, or fill any gaps. Do not proceed until all 7 fields are confirmed.
+If neither a phone number nor email/URL can be found after web search, stop and ask James before proceeding.
 
-### Step 5 — Confirm Full Row Before Writing
+Write immediately — no confirmation needed:
 
-Show the final row as it will appear in the sheet and wait for explicit approval before writing.
+### Step 5 — Write to Google Sheet
 
-### Step 6 — Write to Google Sheet
-
-**Sheet name:** Job Contact Log
-**Drive folder:** [YOUR_DRIVE_FOLDER_ID] — update in config
+**Sheet name:** VEC Job Contact Log
+**Drive folder:** Unemployment Claims (ID: `[YOUR_UNEMPLOYMENT_CLAIMS_FOLDER_ID]`)
 **Sheet ID storage:** `.claude/skills/log-job-application/config.md`
 
 #### First-run setup (if no Sheet ID in config.md):
 
 **6a — Create the sheet:**
 ```bash
-gws drive files create --json '{"name": "Job Contact Log", "mimeType": "application/vnd.google-apps.spreadsheet", "parents": ["[YOUR_DRIVE_FOLDER_ID]"]}' 2>/dev/null
+gws drive files create --json '{"name": "VEC Job Contact Log", "mimeType": "application/vnd.google-apps.spreadsheet", "parents": ["[YOUR_UNEMPLOYMENT_CLAIMS_FOLDER_ID]"]}' 2>/dev/null
 ```
 
 **6b — Write header row:**
@@ -124,28 +125,28 @@ gws sheets spreadsheets values append \
 | B | Company | Full legal name |
 | C | Full Address | Street, city, state, zip |
 | D | Contact Person / Title | "Talent Acquisition Team" for online apps |
-| E | Phone or Email | Careers page URL or HR email |
-| F | Position Applied For | Exact job title |
-| G | Result | "Application submitted online" |
-| H | Job Posting URL | From research file or input |
-| I | Research File | Relative path, or blank |
-| J | Status | "Applied" on creation |
-| K | Notes | Blank on creation |
+| E | Phone | Company headquarters phone — **required by VEC** |
+| F | Email / URL | HR email or careers page URL |
+| G | Position Applied For | Exact job title |
+| H | Result | "Application submitted online" |
+| I | Job Posting URL | From research file or input |
+| J | Research File | Relative path, or blank |
+| K | Status | "Applied" on creation |
+| L | Notes | Blank on creation |
 
 ### Step 7 — Output
 
 Confirm completion with:
 - Link to the Google Sheet
-- Count of applications logged this week (Sunday–Saturday)
+- Count of applications logged this week (Sunday–Saturday) — flag if below 2 for the week
 
 ---
 
 ## Rules
 
 - Never fabricate a contact name — use "Talent Acquisition Team" as the default
-- Never write to the sheet without explicit confirmation in Step 5
-- Always report this week's application count
-- If gws Sheets commands fail, output the full row as a formatted table so it can be pasted manually — do not silently skip logging
+- Always report this week's application count (VEC requires 2 minimum per week)
+- If gws Sheets commands fail, output the full row as a formatted table so James can paste it manually — do not silently skip logging
 - Always use `2>/dev/null` on gws calls to suppress keyring header
 
 ---
@@ -154,3 +155,5 @@ Confirm completion with:
 
 - Research files: `projects/job-search/research/`
 - Sheet config: `.claude/skills/log-job-application/config.md`
+- Drive folder (Unemployment Claims): `[YOUR_UNEMPLOYMENT_CLAIMS_FOLDER_ID]`
+- VEC requirements: `projects/unemployment/README.md`

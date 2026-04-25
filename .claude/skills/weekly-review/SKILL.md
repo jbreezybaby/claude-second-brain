@@ -21,7 +21,7 @@ The GTD weekly review — a full system scan to ensure nothing is slipping and e
 
 ## Workflow
 
-Run through all 10 steps in order. Present findings after each section.
+Run through all 10 steps in order. Present findings to James after each section.
 
 ### Step 1: Clear Inbox
 Process any remaining items in the Todoist Inbox (runs the `/inbox-triage-todoist` workflow).
@@ -35,10 +35,10 @@ For each project, display:
 |---|---|---|---|
 | ... | ... | ... | Overdue / Due this week / Upcoming |
 
-Flag overdue items. For each: keep, reschedule, or complete?
+Flag overdue items. Ask James: keep, reschedule, or complete?
 
 ### Step 3: Review Waiting For
-Pull all tasks with the `waiting` label.
+Pull all tasks from the Todoist Waiting For project (filter by `waiting` label).
 
 | Waiting For | Who | Since | Follow-up Needed? |
 |---|---|---|---|
@@ -63,14 +63,14 @@ The goal here is not to enumerate tasks — Step 2 did that. This step is about 
 Keep it to 3–5 sentences per project. Don't list tasks — synthesize.
 
 **For each area**, present a brief narrative covering:
-- **Purpose** — what does this area represent in your life?
+- **Purpose** — what does this area represent in James's life?
 - **Health** — is it getting appropriate attention? Any key indicators slipping?
 - **Active projects** — which open projects fall within this area? Any gaps?
 - **Big-picture question** — is this area being neglected? Does it need a project spun up?
 
 Keep it to 2–4 sentences per area.
 
-**Priority alignment check** — after presenting all projects and areas, ask: *"Based on all of this, are the right things getting your attention right now? Anything you want to shift focus toward or away from?"*
+**Priority alignment check** — after presenting all projects and areas, ask James: *"Based on all of this, are the right things getting your attention right now? Anything you want to shift focus toward or away from?"*
 
 ### Step 5: Review Backlog & New Ideas
 
@@ -97,7 +97,7 @@ Read `context/goals.md`.
 | ... | ... | Yes / At Risk / Off Track |
 
 ### Step 8: Surface New Tasks
-Based on the full review, suggest tasks that may not have been captured:
+Based on the full review, suggest tasks James may not have captured:
 - Follow-ups that should exist but don't
 - Prep work for upcoming events
 - Actions implied by project status
@@ -105,9 +105,12 @@ Based on the full review, suggest tasks that may not have been captured:
 ### Step 9: Update Priorities
 If priorities have shifted based on the review:
 - Suggest updates to `context/current-priorities.md`
-- Ask for confirmation before making changes
+- Ask James for confirmation before making changes
 
-### Step 10: Sync Public Repo
+### Step 10: Push Private Repo
+Run `/push-private-repo` to commit and push all local changes to the private GitHub repo.
+
+### Step 11: Sync Public Repo
 Run `/sync-public-repo` to push any shareable skill or system changes made since the last sync.
 
 ---
@@ -134,8 +137,8 @@ End with a weekly summary:
 
 ## Rules
 
-- This is an interactive review — pause after each section for input
+- This is an interactive review — pause after each section for James's input
 - Don't rush through it — the weekly review is where the system maintains trust
-- If the user says "skip" on a section, skip it
+- If James says "skip" on a section, skip it
 - Update project READMEs if status has changed
 - Log any significant decisions in `decisions/log.md`
